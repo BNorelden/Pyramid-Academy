@@ -20,7 +20,6 @@ public class Main {
                                                         //  12  |  14  | 16 boardView
 
         ArrayList<String> boardView = new ArrayList<>();
-        //boardView.addAll(Arrays.asList(board)); // lazy way
 
         boardView.add(board[0]);// index 0          --------------- 0 2 4 6 8 10 12 14 16
         boardView.add(" | ");      //index 1
@@ -40,7 +39,7 @@ public class Main {
         boardView.add(" | ");       //index 15
         boardView.add(board[8]);    //index 16      --------------- 16
 
-       // boardView.forEach(System.out::print); // this is how i print whole board
+
 
 /* 0 2 4
    6 8 10
@@ -50,7 +49,7 @@ public class Main {
 
         System.out.println("\n\n"); // empty lines :)
 
-    //    boardView.set(2,"O"); // how to change the a digit on board
+
         boardView.forEach(System.out::print);
 
         System.out.println();
@@ -70,9 +69,7 @@ public class Main {
         char computer;
         Random rand = new Random();
         int randomInt;
-//        for (int i = 0; i < 60; i++) {
-//            System.out.println(rand.nextInt(9)); // 0-8
-//        }
+
 
         System.out.println("Do you want to be X or O?"+"\n Type your input please!");
         Scanner sc = new Scanner(System.in);
@@ -93,163 +90,154 @@ public class Main {
         gameOn = true;
         System.out.println("Computer goes first");//lets make it a dynamic output
 
-        while (gameOn && moves >=0){ // game is going ****************************************
-            System.out.println("moves left in game " + moves);
+        try {
+
+            while (gameOn && moves >= 0) { // game is going ****************************************
+                System.out.println("moves left in game " + moves);
 
 
+                if (moves == 0) { // if there isn't any more moves********************************
+                    System.out.println("looks like a draw, want to play again? y/n");
+                    char playAgain = sc.next().charAt(0);
+                    if (playAgain == 'y') {
+                        Arrays.fill(board, "");
+                        boardView.set(0, "");// index 0          --------------- 0 2 4 6 8 10 12 14 16
+                        boardView.set(4, "");
+                        boardView.set(6, "");
+                        boardView.set(8, "");
+                        boardView.set(10, "");
+                        boardView.set(12, "");
+                        boardView.set(14, "");
+                        boardView.set(16, "");
 
-            if(moves == 0){ // if there isn't any more moves********************************
-                System.out.println("looks like a draw, want to play again? y/n");
-                char playAgain = sc.next().charAt(0);
-                if(playAgain =='y'){
-                    Arrays.fill(board, "");
-                    boardView.set(0, "");// index 0          --------------- 0 2 4 6 8 10 12 14 16
-                    boardView.set(4, "");
-                    boardView.set(6, "");
-                    boardView.set(8, "");
-                    boardView.set(10, "");
-                    boardView.set(12, "");
-                    boardView.set(14, "");
-                    boardView.set(16, "");
+                        gameState = new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2};
+                        moves = 10;
+                        gameOn = true;
 
-                    gameState = new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2};
-                    moves = 10;
-                    gameOn = true;
+                    } else {
+                        gameOn = false;
+                        sc.close();
 
-                }else {
-                    gameOn = false;
-                    sc.close();
+                    }
+
 
                 }
 
-//                resetBoard(board);
-//                gameState = {2,2,2,2,2,2,2,2,2};
-//                moves = 10;
+                randomInt = rand.nextInt(9);
+                if (gameState[randomInt] == 2 && board[randomInt].equals("")) { // it overwrites here for some reason
+                    //comp goes first hen
+                    gameState[randomInt] = 0;
+                    boardView.set(mapValues.get(randomInt), String.valueOf(computer));
+                    moves--;
+                } else if (gameState[randomInt] == 0 || gameState[randomInt] == 1) {
+                    while (gameState[randomInt] != 2) {
+                        randomInt = rand.nextInt(9);
 
-            }
-
-            randomInt=rand.nextInt(9);
-            if(gameState[randomInt]==2 && board[randomInt].equals("")){ // it overwrites here for some reason
-                         //comp goes first hen
-                gameState[randomInt]=0;
-                boardView.set(mapValues.get(randomInt),String.valueOf(computer));
-                moves--;
-            }else if(gameState[randomInt]==0 || gameState[randomInt]==1){
-                while(gameState[randomInt]!=2){
-                    randomInt=rand.nextInt(9);
+                    }
 
                 }
+                System.out.println("moves left in game " + moves);
+                boardView.forEach(System.out::print);//after comps move
+                System.out.println("\n\n");
 
-            }
-            System.out.println("moves left in game " + moves);
-            boardView.forEach(System.out::print);//after comps move
-            System.out.println("\n\n");
+                System.out.println("pick a number on board 1-9 if it's empty");
+                playerMove = sc.nextInt(); // rest looks good now i just have to use
 
-            System.out.println("pick a number on board 1-9 if it's empty");
-            playerMove = sc.nextInt(); // rest looks good now i just have to use
+                if (gameState[playerMove - 1] == 2 && board[playerMove - 1].equals("")) { //0-8 for player as well
+                    //comp goes first
 
-            if(gameState[playerMove-1]==2 && board[playerMove-1].equals("")){ //0-8 for player as well
-                //comp goes first
+                    boardView.set(mapValues.get(playerMove - 1), String.valueOf(player));
+                    gameState[playerMove - 1] = 1;
 
-                boardView.set(mapValues.get(playerMove-1),String.valueOf(player));
-                gameState[playerMove-1]=1;
+                    moves--;
+                } else if (gameState[playerMove - 1] == 0 || gameState[playerMove - 1] == 1) {
+                    System.out.println("This spot was taken already, try again!");
+                    while (gameState[playerMove - 1] != 2) {
+                        playerMove = sc.nextInt();
 
-                moves--;
-            }else if(gameState[playerMove-1]==0 || gameState[playerMove-1]==1){
-                System.out.println("This spot was taken already, try again!");
-                            while(gameState[playerMove-1]!=2){
-                                playerMove = sc.nextInt();
-
-                            }
-                          }
+                    }
+                }
 
 
-            System.out.println("\n\n");
-            boardView.forEach(System.out::print);
-            System.out.println("\n\n");
-            System.out.println("game state progress: "+ Arrays.toString(gameState));
+                System.out.println("\n\n");
+                boardView.forEach(System.out::print);
+                System.out.println("\n\n");
+                System.out.println("game state progress: " + Arrays.toString(gameState));
 
-            if (gameOn){
-                        if((gameState[0]==1 && gameState[1] == 1 && gameState[2]==1) ||
-                                (gameState[3]==1 && gameState[4] == 1 && gameState[5]==1) ||
-                                (gameState[6]==1 && gameState[7] == 1 && gameState[8]==1) ||
-                                (gameState[0]==1 && gameState[3] == 1 && gameState[6]==1)||
-                                (gameState[1]==1 && gameState[4] == 1 && gameState[7]==1) ||
-                                (gameState[2]==1 && gameState[5] == 1 && gameState[8]==1) ||
-                                (gameState[0]==1 && gameState[4] == 1 && gameState[8]==1) ||
-                                (gameState[2]==1 && gameState[4] == 1 && gameState[6]==1)){
+                if (gameOn) {
+                    if ((gameState[0] == 1 && gameState[1] == 1 && gameState[2] == 1) ||
+                            (gameState[3] == 1 && gameState[4] == 1 && gameState[5] == 1) ||
+                            (gameState[6] == 1 && gameState[7] == 1 && gameState[8] == 1) ||
+                            (gameState[0] == 1 && gameState[3] == 1 && gameState[6] == 1) ||
+                            (gameState[1] == 1 && gameState[4] == 1 && gameState[7] == 1) ||
+                            (gameState[2] == 1 && gameState[5] == 1 && gameState[8] == 1) ||
+                            (gameState[0] == 1 && gameState[4] == 1 && gameState[8] == 1) ||
+                            (gameState[2] == 1 && gameState[4] == 1 && gameState[6] == 1)) {
 
-                            System.out.println("Player Wins! want to play again? y/n");
+                        System.out.println("Player Wins! want to play again? y/n");
 
 //
-                            char playAgain = sc.next().charAt(0);
-                            if(playAgain =='y'){
-                                Arrays.fill(board, "");
-                                boardView.set(0, "");// index 0          --------------- 0 2 4 6 8 10 12 14 16
-                                boardView.set(4, "");
-                                boardView.set(6, "");
-                                boardView.set(8, "");
-                                boardView.set(10, "");
-                                boardView.set(12, "");
-                                boardView.set(14, "");
-                                boardView.set(16, "");
-                                gameState = new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2};
-                                moves = 10;
-                                gameOn = true;
+                        char playAgain = sc.next().charAt(0);
+                        if (playAgain == 'y') {
+                            Arrays.fill(board, "");
+                            boardView.set(0, "");// index 0          --------------- 0 2 4 6 8 10 12 14 16
+                            boardView.set(4, "");
+                            boardView.set(6, "");
+                            boardView.set(8, "");
+                            boardView.set(10, "");
+                            boardView.set(12, "");
+                            boardView.set(14, "");
+                            boardView.set(16, "");
+                            gameState = new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2};
+                            moves = 10;
+                            gameOn = true;
 
-                            }else {
-                                gameOn = false;
-                                sc.close();
+                        } else {
+                            gameOn = false;
+                            sc.close();
 
-                            }
-                            //{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}
-                        } else if((gameState[0]==0 && gameState[1] == 0 && gameState[2]==0) ||
-                                (gameState[3]==0 && gameState[4] == 0 && gameState[5]==0) ||
-                                (gameState[6]==0 && gameState[7] == 0 && gameState[8]==0) ||
-                                (gameState[0]==0 && gameState[3] == 0 && gameState[6]==0)||
-                                (gameState[1]==0 && gameState[4] == 0 && gameState[7]==0) ||
-                                (gameState[2]==0 && gameState[5] == 0 && gameState[8]==0) ||
-                                (gameState[0]==0 && gameState[4] == 0 && gameState[8]==0) ||
-                                (gameState[2]==0 && gameState[4] == 0 && gameState[6]==0)){
-                            System.out.println("Computer Wins!");
-                            System.out.println("looks like a draw, want to play again? y/n");
-
-                            char playAgain = sc.next().charAt(0);
-                            if(playAgain =='y'){
-                                Arrays.fill(board, "");
-                                boardView.set(0, "");// index 0          --------------- 0 2 4 6 8 10 12 14 16
-                                boardView.set(4, "");
-                                boardView.set(6, "");
-                                boardView.set(8, "");
-                                boardView.set(10, "");
-                                boardView.set(12, "");
-                                boardView.set(14, "");
-                                boardView.set(16, "");
-                                gameState = new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2};
-                                moves = 10;
-                                gameOn = true;
-
-                            }else {
-                                gameOn = false;
-                                sc.close();
-
-                            }
                         }
-                // would have been longer
-//                if(gameState[0]==1 && gameState[1] == 1 && gameState[2]==1){ //String.valueOf(player) gameState[0] + board[1] + board[2] == 1
-//                    System.out.println("Player wins!");
-//                    gameOn=false;
-//                } else if(gameState[3]==1 && gameState[4] == 1 && gameState[5]==1){
-//                    System.out.println("Player wins!");
-//                    gameOn=false;
-//                }else if(gameState[6]==1 && gameState[7] == 1 && gameState[8]==1){
-//                    System.out.println("Player wins!");
-//                    gameOn=false;
-//                }
-            }
+                        //{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}
+                    } else if ((gameState[0] == 0 && gameState[1] == 0 && gameState[2] == 0) ||
+                            (gameState[3] == 0 && gameState[4] == 0 && gameState[5] == 0) ||
+                            (gameState[6] == 0 && gameState[7] == 0 && gameState[8] == 0) ||
+                            (gameState[0] == 0 && gameState[3] == 0 && gameState[6] == 0) ||
+                            (gameState[1] == 0 && gameState[4] == 0 && gameState[7] == 0) ||
+                            (gameState[2] == 0 && gameState[5] == 0 && gameState[8] == 0) ||
+                            (gameState[0] == 0 && gameState[4] == 0 && gameState[8] == 0) ||
+                            (gameState[2] == 0 && gameState[4] == 0 && gameState[6] == 0)) {
+                        System.out.println("Computer Wins!");
+                        System.out.println("looks like a draw, want to play again? y/n");
+
+                        char playAgain = sc.next().charAt(0);
+                        if (playAgain == 'y') {
+                            Arrays.fill(board, "");
+                            boardView.set(0, "");// index 0          --------------- 0 2 4 6 8 10 12 14 16
+                            boardView.set(4, "");
+                            boardView.set(6, "");
+                            boardView.set(8, "");
+                            boardView.set(10, "");
+                            boardView.set(12, "");
+                            boardView.set(14, "");
+                            boardView.set(16, "");
+                            gameState = new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2};
+                            moves = 10;
+                            gameOn = true;
+
+                        } else {
+                            gameOn = false;
+                            sc.close();
+
+                        }
+                    }
+
+                }
 
             }
-
+        }
+            catch(Exception e){
+            System.out.println(e);
+        }
         }
 
     }

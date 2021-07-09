@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -21,11 +22,12 @@ public class Main {
         System.out.println();
 
         // so whole maps is in this array list
-ArrayList<Tile> tileArrayList = new ArrayList<>(); // didnt know i could this ooooof *Mind Blown*
-        for(int i = 0; i < 100; i++) { // 100 if i make the whole grid 0-99 indices
-
-            tileArrayList.add(i, new Tile());//.getObject()
-        };
+        // was able to use it with loop so i switched to 2d array
+//ArrayList<Tile> tileArrayList = new ArrayList<>(); // didn't know i could this ooooof *Mind Blown*
+//        for(int i = 0; i < 100; i++) { // 100 if i make the whole grid 0-99 indices
+//
+//            tileArrayList.add(i, new Tile());//.getObject()
+//        };
 //        System.out.println("tileArrayList index 1 is "+tileArrayList.get(1).getShip()); // can i make it flip
  //       System.out.println("tileArrayList index 1 is "+tileArrayList.get(1).getShip()); // this only prints ship here below switches it
 
@@ -40,35 +42,33 @@ ArrayList<Tile> tileArrayList = new ArrayList<>(); // didnt know i could this oo
 
 
 
-        for (int i = 1; i <= tileArrayList.size() ; i++) {// printing object loop
-                                                // might start from 1 not 0???
-
-            if(i%10==0 ){
-                System.out.println(tileArrayList.get(i-1));
-            }else{
-
-                System.out.print(tileArrayList.get(i-1));
-            }
-//            if(i%9==0 && i != 0){
-//                System.out.println(tileArrayList.get(i));
-//            }else {
-//                System.out.print(tileArrayList.get(i));
+//        for (int i = 1; i <= tileArrayList.size() ; i++) {// printing object loop of ARRAYLIST
+//                                                // might start from 1 not 0???
+//
+//            if(i%10==0 ){
+//                System.out.println(tileArrayList.get(i-1));
+//            }else{
+//
+//                System.out.print(tileArrayList.get(i-1));
 //            }
+////            if(i%9==0 && i != 0){
+////                System.out.println(tileArrayList.get(i));
+////            }else {
+////                System.out.print(tileArrayList.get(i));
+////            }
+//
+//        }
 
-        }
-        System.out.println("\n\n\n");
-
-
-
-        for (int i = 1; i <= 100; i++) { // so it doesnt crash at 0 or 100
-
-            if(i%10==0 ){
-                System.out.println(i-1);
-            }else{
-
-                System.out.print(i-1);
-            }
-        }
+        // loop for checking indices
+//        for (int i = 1; i <= 100; i++) { // so it doesn't crash at 0 or 100
+//
+//            if(i%10==0 ){
+//                System.out.println(i-1);
+//            }else{
+//
+//                System.out.print(i-1);
+//            }
+//        }
 
         for (int i = 0; i <smallerMap.length ; i++) {
             for (int j = 0; j <smallerMap[i].length; j++) { // prints out whole row array2DMap[i].length
@@ -95,7 +95,6 @@ ArrayList<Tile> tileArrayList = new ArrayList<>(); // didnt know i could this oo
 
                     System.out.print(smallerMap[i][j]); // cant call object method here either
                 }
-
             }
             System.out.println();
         }
@@ -109,9 +108,9 @@ ArrayList<Tile> tileArrayList = new ArrayList<>(); // didnt know i could this oo
                 array2DMap[i][j] = new Tile();// making objects here**********************************************
 
             }
-            System.out.println();
-        }
 
+        }
+        System.out.println();
         // ****************************** ATTEMPT printing 2d ARRAY ***********************************
 
         System.out.println("using the 2d array:");
@@ -127,71 +126,88 @@ ArrayList<Tile> tileArrayList = new ArrayList<>(); // didnt know i could this oo
         }
 
 
+        HashMap<String,Integer> ships = new HashMap<>();
+        ships.put("Carrier",5);//carrier
+        ships.put("BattleShip",4);//BattleShip
+        ships.put("Cruiser",3);//Cruiser
+        ships.put("Submarine",2);//Submarine
+        ships.put("Destroyer",1);//Destroyer
+
 
 //--------------------------------------------------------------------------
         // have to finish the board then i will worry about this
         Scanner sc = new Scanner(System.in);
 
-        //  don't forget to -1 of the user if needed
 
 
 //        System.out.println("Enter Player 1 name: "); //scanner name for player 1
 //        System.out.println("Enter Player 2 name: "); //scanner name for player 2
+//-------------------------------------from here *************************************************************
+        ships.forEach((k,v) ->{
 
+            System.out.println("Placing "+k);
         System.out.println("Enter the coordinates for the carrier:(x,y) \n" ); // carrier is 5. battleship is 4
 
-        String Coordinates=sc.nextLine();
-        String[] parts = Coordinates.split(",");
+//        String Coordinates=sc.nextLine();
+        int testx = sc.nextInt();
+        int testy = sc.nextInt();
+//        String[] parts = Coordinates.split(",");
+//
+//        String testx = parts[0].trim().substring(1).trim();
+//        String testy = parts[1].trim().substring(0, parts[1].trim().length() - 1).trim();
 
-        String testx = parts[0].trim().substring(1).trim();
-        String testy = parts[1].trim().substring(0, parts[1].trim().length() - 1).trim();
-        System.out.println(tileArrayList.size());
-        int realX = Integer.parseInt(testx);
-        int realY = Integer.parseInt(testy);
+        int realX = testx;
+        int realY = testy;
+//      int realX = Integer.parseInt(testx);
+//      int realY = Integer.parseInt(testy);
 
 //       while ((Integer.parseInt(testx) > tileArrayList.size() || Integer.parseInt(testx)<0) &&
 //               (Integer.parseInt(testy) > tileArrayList.size() || Integer.parseInt(testy)<0)) {
 //           Coordinates=sc.nextLine();
 //           parts = Coordinates.split(",");
 //       }
-        if ((Integer.parseInt(testx) < 10 && Integer.parseInt(testx)>=0) &&
-                (Integer.parseInt(testy) < 10 && Integer.parseInt(testy)>=0)){
-            System.out.println("X was: "+testx+" and Y: "+testy);
-        System.out.println("Place horizontally or vertically (h or v)?");
-        String boatDirection = String.valueOf(sc.next().charAt(0)); // was going to check if its h or v only but will take too much time
-            System.out.println("boat direction is " +boatDirection);
+        if (realX < 10 && realX>=0 && realY < 10 && realY>=0) {
 
-            if (boatDirection.equals(String.valueOf('h'))){ // coors 0-9 for now
-                                                            // h is -------
-                System.out.println("Coors "+realX+","+realY);
+            System.out.println("X was: " + testx + " and Y: " + testy);
+            System.out.println("Place horizontally or vertically (h or v)?");
 
-//                if (realX>=0 && realX<=5) // to make sure its enough for carrier as of now
-                    int holdy=0;
-                    for (int i = realX; i < realX+5; i++) { // carrier size test
-                        for (int j = realY; j <realY+50 ; j= j+10) {
+            String boatDirection = String.valueOf(sc.next().charAt(0)); // was going to check if its h or v only but will take too much time
+            System.out.println("boat direction is " + boatDirection);
 
-                            holdy = j;
-                        }if(realX==0) {
-                            tileArrayList.get(holdy).setLocation(tileArrayList.get(holdy).getShip());
-                        }
+            if (boatDirection.equals(String.valueOf('h'))) { // coors 0-9 for now
+                // h is -------
+                System.out.println("Coors " + realX + "," + realY);
 
-                    }
+//                if (realY>=0 && realY<=5) // to make sure its enough for carrier as of now
+                int holdY = 0;
+                for (int i = 0; i < v; i++) { // carrier size test
 
+                    // horizontal x value stays the same but the y is changed
+                    array2DMap[realX][realY+i].setLocation(array2DMap[realX][realY+i].getShip());
+
+                }
 
 
             } // lets keep on x then figure out the y!
             else if (boatDirection.equals(String.valueOf('v'))) { //have to start working on this
-                System.out.println("Coors "+realX+","+realY);
-                int yAddition = 0;
-                if (realY >= 0) {
-                    for (int i = 0; i < 5; i++) { // courier size
-                        if(i>=1){
-                            yAddition += 10;
-                        }
-                        tileArrayList.get(realY+yAddition).setLocation(tileArrayList.get(realY+yAddition).getShip());
-                        //this wasn't working so decided to go back to 2d array
+                System.out.println("Coors " + realX + "," + realY);
 
-                    }
+
+                if (realX >= 0 && realX <=5) { // courier size
+
+                    for (int i = 0; i < v; i++) { // carrier size test
+                    // something here wrong bull crap
+
+
+                    // vertical x changes but the y stays the same
+
+                    array2DMap[realX+i][realY].setLocation(array2DMap[realX+i][realY].getShip()); //should be +1 to
+
+                    //array2DMap[realX][i].setLocation(array2DMap[realX][i].getShip());
+//                        tileArrayList.get(realY+yAddition).setLocation(tileArrayList.get(realY+yAddition).getShip());
+                    //this wasn't working so decided to go back to 2d array
+
+                }
 
 
                 }
@@ -199,6 +215,7 @@ ArrayList<Tile> tileArrayList = new ArrayList<>(); // didnt know i could this oo
 
             }
 
+        }
 
 
 
@@ -207,16 +224,33 @@ ArrayList<Tile> tileArrayList = new ArrayList<>(); // didnt know i could this oo
 
 
 // this just prints whole arrayList of objects *****************************************************************
-            for (int i = 1; i <= tileArrayList.size() ; i++) {// printing object loop
-                // might start from 1 not 0???
+//            for (int i = 1; i <= tileArrayList.size() ; i++) {// printing object loop
+//                // might start from 1 not 0???
+//
+//                if (i % 10 == 0) {
+//                    System.out.println(tileArrayList.get(i - 1));
+//                } else {
+//
+//                    System.out.print(tileArrayList.get(i - 1));
+//                }
+//            }
 
-                if (i % 10 == 0) {
-                    System.out.println(tileArrayList.get(i - 1));
-                } else {
+            //2d below
 
-                    System.out.print(tileArrayList.get(i - 1));
+            System.out.println("using the 2d array:");
+            for (int i = 0; i <array2DMap.length ; i++) { // testing stuff here with java 2d array
+                for (int j = 0; j <array2DMap[i].length; j++) { // prints out whole row array2DMap[i].length
+
+
+                    System.out.print(array2DMap[i][j].getLocation()); // cant call object method here either
+
+
                 }
+                System.out.println();
             }
+
+        });
+//till here before i clean it *************************************************************
 // this just prints whole arrayList of objects *****************************************************************
 
             // so now i take the char then figure out how make the boats appear
@@ -239,7 +273,7 @@ ArrayList<Tile> tileArrayList = new ArrayList<>(); // didnt know i could this oo
 
 
 
-        }
+
 
 
 
